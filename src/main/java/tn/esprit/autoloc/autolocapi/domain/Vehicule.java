@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString
 public class Vehicule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
