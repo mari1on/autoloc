@@ -20,6 +20,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,4 +50,7 @@ public class Contrat {
     @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Paiement> paiements = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    Reservation reservation;
 }
