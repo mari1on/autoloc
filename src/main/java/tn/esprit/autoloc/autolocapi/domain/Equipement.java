@@ -12,6 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,4 +34,6 @@ public class Equipement {
     Long idEquipement;
 
     String libelle;
+    @ManyToMany(mappedBy = "equipements", fetch = FetchType.LAZY)
+    Set<Vehicule> vehicules = new HashSet<>();
 }
