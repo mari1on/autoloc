@@ -43,4 +43,6 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     Client client;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Vehicule vehicule;
 }
