@@ -13,9 +13,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-
+import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,4 +44,7 @@ public class Contrat {
     BigDecimal montantTotal;
 
     boolean valide;
+    @OneToMany(mappedBy = "contrat", fetch = FetchType.LAZY)
+    private List<Paiement> paiements = new ArrayList<>();
+
 }

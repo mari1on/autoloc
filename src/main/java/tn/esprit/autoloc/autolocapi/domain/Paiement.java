@@ -14,7 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.persistence.ManyToOne;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.FetchType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
