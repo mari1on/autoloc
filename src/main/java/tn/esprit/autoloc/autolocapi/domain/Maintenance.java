@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
 
@@ -33,4 +36,6 @@ public class Maintenance {
     LocalDate dateDebut;
     LocalDate dateFin;
     String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Vehicule vehicule;
 }

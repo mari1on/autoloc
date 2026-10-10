@@ -11,6 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,4 +50,10 @@ public class Vehicule {
     StatutVehicule statut;
     @ManyToMany(fetch = FetchType.LAZY)
     Set<Equipement> equipements = new HashSet<>();
+    @OneToMany(
+            mappedBy = "vehicule",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY
+    )
+    List<Maintenance> maintenances = new ArrayList<>();
 }
