@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
 
@@ -37,4 +40,7 @@ public class Reservation {
 
     @Enumerated(EnumType.STRING)
     StatutReservation statut;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Client client;
 }
