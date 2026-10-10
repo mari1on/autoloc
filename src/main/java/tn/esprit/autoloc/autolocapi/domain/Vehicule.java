@@ -9,6 +9,11 @@ import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
 @Entity
 @Table(name = "vehicule")
 @Getter
@@ -37,4 +42,6 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     StatutVehicule statut;
+    @ManyToMany(fetch = FetchType.LAZY)
+    Set<Equipement> equipements = new HashSet<>();
 }
