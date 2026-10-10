@@ -15,6 +15,12 @@ import lombok.experimental.FieldDefaults;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -34,6 +40,7 @@ public class Agence {
     String ville;
     String adresse;
     String telephone;
-    @ManyToOne(fetch = FetchType.LAZY)
-    Agence agence;
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    List<Employe> employes = new ArrayList<>();
 }
