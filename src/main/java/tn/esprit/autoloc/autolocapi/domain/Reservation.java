@@ -17,7 +17,7 @@ import lombok.experimental.FieldDefaults;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 
 @Entity
@@ -45,4 +45,10 @@ public class Reservation {
     Client client;
     @ManyToOne(fetch = FetchType.LAZY)
     Vehicule vehicule;
+    @OneToOne(
+            mappedBy = "reservation",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    Contrat contrat;
 }
