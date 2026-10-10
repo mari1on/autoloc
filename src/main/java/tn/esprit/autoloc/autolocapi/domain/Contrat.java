@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class Contrat {
     BigDecimal montantTotal;
 
     boolean valide;
-    @OneToMany(mappedBy = "contrat", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Paiement> paiements = new ArrayList<>();
-
 }
