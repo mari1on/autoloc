@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -35,4 +37,6 @@ public class Employe {
 
     @Enumerated(EnumType.STRING)
     RoleEmploye role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Agence agence;
 }
