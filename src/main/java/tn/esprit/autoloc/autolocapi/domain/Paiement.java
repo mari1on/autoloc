@@ -27,11 +27,14 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
+
 public class Paiement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
+
     Long idPaiement;
 
     @Column(precision = 10, scale = 2)
@@ -41,4 +44,6 @@ public class Paiement {
 
     @Enumerated(EnumType.STRING)
     ModePaiement modePaiement;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Contrat contrat;
 }

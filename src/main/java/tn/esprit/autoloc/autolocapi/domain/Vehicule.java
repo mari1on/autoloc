@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import java.math.BigDecimal;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "vehicule")
@@ -16,9 +17,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
+@EqualsAndHashCode
 public class Vehicule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
     Long idVehicule;
     @Column(nullable = false, unique = true, length = 20)
     String immatriculation;
