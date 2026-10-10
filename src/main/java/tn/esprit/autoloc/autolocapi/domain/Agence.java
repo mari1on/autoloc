@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -32,4 +34,6 @@ public class Agence {
     String ville;
     String adresse;
     String telephone;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Agence agence;
 }
