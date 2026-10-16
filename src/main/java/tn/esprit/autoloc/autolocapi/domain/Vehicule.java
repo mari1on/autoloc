@@ -1,6 +1,7 @@
 package tn.esprit.autoloc.autolocapi.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-        import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,16 +10,10 @@ import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Entity
 @Table(name = "vehicule")
@@ -49,11 +44,13 @@ public class Vehicule {
     @Column(nullable = false, length = 20)
     StatutVehicule statut;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     Set<Equipement> equipements = new HashSet<>();
     @OneToMany(
             mappedBy = "vehicule",
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
+    @JsonIgnore
     List<Maintenance> maintenances = new ArrayList<>();
 }
