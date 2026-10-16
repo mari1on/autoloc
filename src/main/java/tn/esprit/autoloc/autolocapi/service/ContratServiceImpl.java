@@ -3,18 +3,20 @@ package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import tn.esprit.autoloc.autolocapi.domain.Contrat;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.autolocapi.repository.IContratRepository;
 
 @Service
+@RequiredArgsConstructor
 public class ContratServiceImpl implements IContratService {
 
-    @Autowired
-    private IContratRepository contratRepository;
+    private final IContratRepository contratRepository;
+
+
 
     @Override
     public Contrat create(Contrat contrat) {
