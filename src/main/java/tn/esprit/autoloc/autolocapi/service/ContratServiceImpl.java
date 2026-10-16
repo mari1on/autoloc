@@ -3,7 +3,7 @@ package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.autoloc.autolocapi.domain.Contrat;
@@ -11,10 +11,10 @@ import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.autolocapi.repository.IContratRepository;
 
 @Service
-@RequiredArgsConstructor
 public class ContratServiceImpl implements IContratService {
 
-    private final IContratRepository contratRepository;
+    @Autowired
+    private IContratRepository contratRepository;
 
     @Override
     public Contrat create(Contrat contrat) {
@@ -40,9 +40,7 @@ public class ContratServiceImpl implements IContratService {
     @Override
     public Contrat update(Long id, Contrat contrat) {
         Contrat existant = findById(id);
-
         existant.setMontantTotal(contrat.getMontantTotal());
-
         return contratRepository.save(existant);
     }
 
@@ -51,7 +49,6 @@ public class ContratServiceImpl implements IContratService {
         if (!contratRepository.existsById(id)) {
             throw new ResourceNotFoundException("Contrat", id);
         }
-
         contratRepository.deleteById(id);
     }
 }
