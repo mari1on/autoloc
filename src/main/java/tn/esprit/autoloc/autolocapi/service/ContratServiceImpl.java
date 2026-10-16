@@ -29,7 +29,10 @@ public class ContratServiceImpl implements IContratService {
     public Contrat findById(Long id) {
         return contratRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Contrat", id));
+                        new RuntimeException(
+                                "Contrat introuvable avec l'identifiant " + id
+                        )
+                );
     }
 
     @Override
