@@ -30,11 +30,7 @@ public class ContratServiceImpl implements IContratService {
     @Override
     public Contrat findById(Long id) {
         return contratRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Contrat introuvable avec l'identifiant " + id
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Contrat", id));
     }
 
     @Override
@@ -45,7 +41,11 @@ public class ContratServiceImpl implements IContratService {
     @Override
     public Contrat update(Long id, Contrat contrat) {
         Contrat existant = findById(id);
+        existant.setDateSignature(contrat.getDateSignature());
         existant.setMontantTotal(contrat.getMontantTotal());
+        existant.setValide(contrat.isValide());
+        existant.setPaiements(contrat.getPaiements());
+        existant.setReservation(contrat.getReservation());
         return contratRepository.save(existant);
     }
 
