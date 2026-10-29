@@ -2,6 +2,8 @@ package tn.esprit.autoloc.web.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,33 +19,39 @@ import tn.esprit.autoloc.autolocapi.domain.Reservation;
 import tn.esprit.autoloc.autolocapi.service.IReservationService;
 
 @RestController
+@Tag(name = "Gestion Réservations", description = "Gestion des réservations de véhicules")
 @RequestMapping("/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
 
     private final IReservationService reservationService;
 
+    @Operation(description = "Récupérer toutes les réservations de la base de données")
     @GetMapping
     public List<Reservation> findAll() {
         return reservationService.findAll();
     }
 
+    @Operation(description = "Récupérer une réservation à partir de son identifiant")
     @GetMapping("/{id}")
     public Reservation findById(@PathVariable Long id) {
         return reservationService.findById(id);
     }
 
+    @Operation(description = "Ajouter une nouvelle réservation")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation create(@RequestBody Reservation reservation) {
         return reservationService.create(reservation);
     }
 
+    @Operation(description = "Modifier une réservation existante")
     @PutMapping("/{id}")
     public Reservation update(@PathVariable Long id, @RequestBody Reservation reservation) {
         return reservationService.update(id, reservation);
     }
 
+    @Operation(description = "Supprimer une réservation")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {

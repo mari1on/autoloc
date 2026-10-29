@@ -2,6 +2,8 @@ package tn.esprit.autoloc.web.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,33 +19,39 @@ import tn.esprit.autoloc.autolocapi.domain.Equipement;
 import tn.esprit.autoloc.autolocapi.service.IEquipementService;
 
 @RestController
+@Tag(name = "Gestion Équipements", description = "Gestion des équipements")
 @RequestMapping("/equipements")
 @RequiredArgsConstructor
 public class EquipementController {
 
     private final IEquipementService equipementService;
 
+    @Operation(description = "Récupérer tous les équipements de la base de données")
     @GetMapping
     public List<Equipement> findAll() {
         return equipementService.findAll();
     }
 
+    @Operation(description = "Récupérer un équipement à partir de son identifiant")
     @GetMapping("/{id}")
     public Equipement findById(@PathVariable Long id) {
         return equipementService.findById(id);
     }
 
+    @Operation(description = "Ajouter un nouvel équipement")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Equipement create(@RequestBody Equipement equipement) {
         return equipementService.create(equipement);
     }
 
+    @Operation(description = "Modifier un équipement existant")
     @PutMapping("/{id}")
     public Equipement update(@PathVariable Long id, @RequestBody Equipement equipement) {
         return equipementService.update(id, equipement);
     }
 
+    @Operation(description = "Supprimer un équipement")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
