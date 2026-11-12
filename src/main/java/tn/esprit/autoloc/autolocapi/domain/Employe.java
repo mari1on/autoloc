@@ -1,6 +1,5 @@
 package tn.esprit.autoloc.autolocapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,7 +38,5 @@ public class Employe {
     @Enumerated(EnumType.STRING)
     RoleEmploye role;
     @ManyToOne(fetch = FetchType.LAZY)
-    //sm8
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "employes"})
     Agence agence;
 }

@@ -40,7 +40,6 @@ public class AgenceServiceImpl implements IAgenceService {
         existante.setVille(agence.getVille());
         existante.setAdresse(agence.getAdresse());
         existante.setTelephone(agence.getTelephone());
-        existante.setEmployes(agence.getEmployes());
         return agenceRepository.save(existante);
     }
 

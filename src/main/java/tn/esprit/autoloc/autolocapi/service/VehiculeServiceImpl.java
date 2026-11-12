@@ -22,6 +22,7 @@ public class VehiculeServiceImpl implements IVehiculeService {
         if (vehicule.getIdVehicule() != null) {
             throw new IllegalArgumentException("Un nouveau véhicule ne doit pas avoir d'identifiant");
         }
+        vehicule.setAgence(resolveAgence(vehicule.getAgence()));
         return vehiculeRepository.save(vehicule);
     }
 
@@ -45,8 +46,9 @@ public class VehiculeServiceImpl implements IVehiculeService {
         existant.setCategorie(vehicule.getCategorie());
         existant.setTarifJournalier(vehicule.getTarifJournalier());
         existant.setStatut(vehicule.getStatut());
-        existant.setEquipements(vehicule.getEquipements());
-        existant.setMaintenances(vehicule.getMaintenances());
+        if (vehicule.getAgence() != null) {
+            existant.setAgence(resolveAgence(vehicule.getAgence()));
+        }
         return vehiculeRepository.save(existant);
     }
 
@@ -59,6 +61,15 @@ public class VehiculeServiceImpl implements IVehiculeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
         vehicule.setAgence(agence);
         return vehiculeRepository.save(vehicule);
+    }
+
+    //sm8
+    private Agence resolveAgence(Agence agence) {
+        if (agence == null || agence.getIdAgence() == null) {
+            return null;
+        }
+        return agenceRepository.findById(agence.getIdAgence())
+                .orElseThrow(() -> new ResourceNotFoundException("Agence", agence.getIdAgence()));
     }
 
     @Override
