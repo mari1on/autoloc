@@ -39,6 +39,7 @@ public class Employe {
     @Enumerated(EnumType.STRING)
     RoleEmploye role;
     @ManyToOne(fetch = FetchType.LAZY)
+    //sm8
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "employes"})
     Agence agence;
 }

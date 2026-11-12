@@ -4,8 +4,10 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.autoloc.autolocapi.domain.Agence;
 import tn.esprit.autoloc.autolocapi.domain.Vehicule;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
+import tn.esprit.autoloc.autolocapi.repository.IAgenceRepository;
 import tn.esprit.autoloc.autolocapi.repository.IVehiculeRepository;
 
 @Service
@@ -13,6 +15,7 @@ import tn.esprit.autoloc.autolocapi.repository.IVehiculeRepository;
 public class VehiculeServiceImpl implements IVehiculeService {
 
     private final IVehiculeRepository vehiculeRepository;
+    private final IAgenceRepository agenceRepository;
 
     @Override
     public Vehicule create(Vehicule vehicule) {
@@ -45,6 +48,17 @@ public class VehiculeServiceImpl implements IVehiculeService {
         existant.setEquipements(vehicule.getEquipements());
         existant.setMaintenances(vehicule.getMaintenances());
         return vehiculeRepository.save(existant);
+    }
+
+    //sm8!!!!!!!!
+    //affecter un véhicule existant à une agence existante
+    @Override
+    public Vehicule affecterAgence(Long idVehicule, Long idAgence) {
+        Vehicule vehicule = findById(idVehicule);
+        Agence agence = agenceRepository.findById(idAgence)
+                .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
+        vehicule.setAgence(agence);
+        return vehiculeRepository.save(vehicule);
     }
 
     @Override

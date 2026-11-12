@@ -50,6 +50,13 @@ public class VehiculeController {
     public Vehicule update(@PathVariable Long id, @RequestBody Vehicule vehicule) {
         return vehiculeService.update(id, vehicule);
     }
+    //sm8!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //recevoir la requête HTTP
+    @Operation(description = "Affecter un véhicule à une agence")
+    @PutMapping("/{id}/agence/{idAgence}")
+    public Vehicule affecterAgence(@PathVariable Long id, @PathVariable Long idAgence) {
+        return vehiculeService.affecterAgence(id, idAgence);
+    }
 
     @Operation(description = "Supprimer un véhicule")
     @DeleteMapping("/{id}")

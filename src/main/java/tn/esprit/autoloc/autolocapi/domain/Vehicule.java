@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.autolocapi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,6 +44,9 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     StatutVehicule statut;
+    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "employes"})
+    Agence agence;
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     Set<Equipement> equipements = new HashSet<>();

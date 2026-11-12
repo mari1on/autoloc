@@ -40,6 +40,6 @@ public class Agence {
     String telephone;
 
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
-    @JsonIgnore
+
     List<Employe> employes = new ArrayList<>();
 }
