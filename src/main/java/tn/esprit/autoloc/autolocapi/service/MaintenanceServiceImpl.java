@@ -4,15 +4,19 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.autoloc.autolocapi.domain.Maintenance;
+import tn.esprit.autoloc.autolocapi.domain.Vehicule;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.autolocapi.repository.IMaintenanceRepository;
+import tn.esprit.autoloc.autolocapi.repository.IVehiculeRepository;
 
 @Service
 @RequiredArgsConstructor
 public class MaintenanceServiceImpl implements IMaintenanceService {
 
     private final IMaintenanceRepository maintenanceRepository;
+    private final IVehiculeRepository vehiculeRepository;
 
     @Override
     public Maintenance create(Maintenance maintenance) {
@@ -41,6 +45,17 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
         existante.setDescription(maintenance.getDescription());
         existante.setVehicule(maintenance.getVehicule());
         return maintenanceRepository.save(existante);
+    }
+
+    // Atelier6
+    @Override
+    @Transactional
+    public Maintenance affecterVehicule(Long idMaintenance, Long idVehicule) {
+        Maintenance maintenance = findById(idMaintenance);
+        Vehicule vehicule = vehiculeRepository.findById(idVehicule)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicule", idVehicule));
+        maintenance.setVehicule(vehicule);
+        return maintenanceRepository.save(maintenance);
     }
 
     @Override

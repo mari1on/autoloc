@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import tn.esprit.autoloc.autolocapi.dto.AffectationMaintenanceDto;
+import tn.esprit.autoloc.autolocapi.dto.MaintenanceDto;
 import tn.esprit.autoloc.autolocapi.domain.Maintenance;
+import tn.esprit.autoloc.autolocapi.mapper.MaintenanceMapper;
 import tn.esprit.autoloc.autolocapi.service.IMaintenanceService;
 
 @RestController
@@ -25,6 +29,7 @@ import tn.esprit.autoloc.autolocapi.service.IMaintenanceService;
 public class MaintenanceController {
 
     private final IMaintenanceService maintenanceService;
+    private final MaintenanceMapper maintenanceMapper;
 
     @Operation(description = "Récupérer toutes les maintenances de la base de données")
     @GetMapping
@@ -49,6 +54,14 @@ public class MaintenanceController {
     @PutMapping("/{id}")
     public Maintenance update(@PathVariable Long id, @RequestBody Maintenance maintenance) {
         return maintenanceService.update(id, maintenance);
+    }
+
+    // Atelier6
+    @Operation(description = "Affecter une maintenance existante à un véhicule")
+    @PutMapping("/affecter-vehicule")
+    public MaintenanceDto affecterVehicule(@Valid @RequestBody AffectationMaintenanceDto affectationDto) {
+        return maintenanceMapper.toDto(maintenanceService.affecterVehicule(
+                affectationDto.getIdMaintenance(), affectationDto.getIdVehicule()));
     }
 
     @Operation(description = "Supprimer une maintenance")

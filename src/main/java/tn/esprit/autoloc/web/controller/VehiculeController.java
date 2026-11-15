@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.autoloc.autolocapi.dto.VehiculeDto;
+import tn.esprit.autoloc.autolocapi.dto.AffectationEquipementDto;
 import tn.esprit.autoloc.autolocapi.mapper.VehiculeMapper;
 import tn.esprit.autoloc.autolocapi.service.IVehiculeService;
 
@@ -63,6 +64,14 @@ public class VehiculeController {
     @PutMapping("/{id}/agence/{idAgence}")
     public VehiculeDto affecterAgence(@PathVariable Long id, @PathVariable Long idAgence) {
         return vehiculeMapper.toDto(vehiculeService.affecterAgence(id, idAgence));
+    }
+
+    // Atelier6
+    @Operation(description = "Affecter un équipement existant à un véhicule")
+    @PutMapping("/affecter-equipement")
+    public VehiculeDto affecterEquipement(@Valid @RequestBody AffectationEquipementDto affectationDto) {
+        return vehiculeMapper.toDto(vehiculeService.affecterEquipement(
+                affectationDto.getIdVehicule(), affectationDto.getIdEquipement()));
     }
 
     @Operation(description = "Supprimer un véhicule")

@@ -4,10 +4,13 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.autoloc.autolocapi.domain.Agence;
+import tn.esprit.autoloc.autolocapi.domain.Equipement;
 import tn.esprit.autoloc.autolocapi.domain.Vehicule;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.autolocapi.repository.IAgenceRepository;
+import tn.esprit.autoloc.autolocapi.repository.IEquipementRepository;
 import tn.esprit.autoloc.autolocapi.repository.IVehiculeRepository;
 
 @Service
@@ -16,6 +19,7 @@ public class VehiculeServiceImpl implements IVehiculeService {
 
     private final IVehiculeRepository vehiculeRepository;
     private final IAgenceRepository agenceRepository;
+    private final IEquipementRepository equipementRepository;
 
     @Override
     public Vehicule create(Vehicule vehicule) {
@@ -60,6 +64,18 @@ public class VehiculeServiceImpl implements IVehiculeService {
         Agence agence = agenceRepository.findById(idAgence)
                 .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
         vehicule.setAgence(agence);
+        return vehiculeRepository.save(vehicule);
+    }
+
+    // Atelier6
+    @Override
+    @Transactional
+    public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
+        Vehicule vehicule = findById(idVehicule);
+        Equipement equipement = equipementRepository.findById(idEquipement)
+                .orElseThrow(() -> new ResourceNotFoundException("Equipement", idEquipement));
+        vehicule.getEquipements().add(equipement);
+        equipement.getVehicules().add(vehicule);
         return vehiculeRepository.save(vehicule);
     }
 

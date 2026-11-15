@@ -15,5 +15,8 @@ public interface IVehiculeService {
 
     Vehicule affecterAgence(Long idVehicule, Long idAgence);
 
+    // Atelier6 : affecter un équipement existant à un véhicule existant.
+    Vehicule affecterEquipement(Long idVehicule, Long idEquipement);
+
     void deleteById(Long id);
 }
