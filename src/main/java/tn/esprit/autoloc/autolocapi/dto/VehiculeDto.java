@@ -14,7 +14,6 @@ import lombok.Setter;
 import tn.esprit.autoloc.autolocapi.domain.CategorieVehicule;
 import tn.esprit.autoloc.autolocapi.domain.StatutVehicule;
 
-//sm8
 @Getter
 @Setter
 @NoArgsConstructor

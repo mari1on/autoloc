@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tn.esprit.autoloc.autolocapi.domain.RoleEmploye;
 
-//sm8
 @Getter
 @Setter
 @NoArgsConstructor

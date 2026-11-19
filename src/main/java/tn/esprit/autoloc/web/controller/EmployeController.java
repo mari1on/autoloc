@@ -1,7 +1,6 @@
 package tn.esprit.autoloc.web.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.autoloc.autolocapi.dto.EmployeDto;
-import tn.esprit.autoloc.autolocapi.mapper.EmployeMapper;
 import tn.esprit.autoloc.autolocapi.service.IEmployeService;
 
 @RestController
@@ -28,34 +26,30 @@ import tn.esprit.autoloc.autolocapi.service.IEmployeService;
 public class EmployeController {
 
     private final IEmployeService employeService;
-    //sm8
-    private final EmployeMapper employeMapper;
 
     @Operation(description = "Récupérer tous les employés de la base de données")
     @GetMapping
     public List<EmployeDto> findAll() {
-        return employeService.findAll().stream()
-                .map(employeMapper::toDto)
-                .collect(Collectors.toList());
+        return employeService.findAll();
     }
 
     @Operation(description = "Récupérer un employé à partir de son identifiant")
     @GetMapping("/{id}")
     public EmployeDto findById(@PathVariable Long id) {
-        return employeMapper.toDto(employeService.findById(id));
+        return employeService.findById(id);
     }
 
     @Operation(description = "Ajouter un nouvel employé")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeDto create(@Valid @RequestBody EmployeDto employeDto) {
-        return employeMapper.toDto(employeService.create(employeMapper.toEntity(employeDto)));
+        return employeService.create(employeDto);
     }
 
     @Operation(description = "Modifier un employé existant")
     @PutMapping("/{id}")
     public EmployeDto update(@PathVariable Long id, @Valid @RequestBody EmployeDto employeDto) {
-        return employeMapper.toDto(employeService.update(id, employeMapper.toEntity(employeDto)));
+        return employeService.update(id, employeDto);
     }
 
     @Operation(description = "Supprimer un employé")

@@ -1,7 +1,6 @@
 package tn.esprit.autoloc.web.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.autoloc.autolocapi.dto.AgenceDto;
-import tn.esprit.autoloc.autolocapi.mapper.AgenceMapper;
+import tn.esprit.autoloc.autolocapi.mapper.IMapper;
 import tn.esprit.autoloc.autolocapi.service.IAgenceService;
 
 @RestController
@@ -28,34 +27,31 @@ import tn.esprit.autoloc.autolocapi.service.IAgenceService;
 public class AgenceController {
 
     private final IAgenceService agenceService;
-    //sm8
-    private final AgenceMapper agenceMapper;
+    private final IMapper agenceMapper;
 
     @Operation(description = "Récupérer toutes les agences de la base de données")
     @GetMapping
     public List<AgenceDto> findAll() {
-        return agenceService.findAll().stream()
-                .map(agenceMapper::toDto)
-                .collect(Collectors.toList());
+        return agenceService.findAll();
     }
 
     @Operation(description = "Récupérer une agence à partir de son identifiant")
     @GetMapping("/{id}")
     public AgenceDto findById(@PathVariable Long id) {
-        return agenceMapper.toDto(agenceService.findById(id));
+        return agenceService.findById(id);
     }
 
     @Operation(description = "Ajouter une nouvelle agence")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AgenceDto create(@Valid @RequestBody AgenceDto agenceDto) {
-        return agenceMapper.toDto(agenceService.create(agenceMapper.toEntity(agenceDto)));
+        return agenceService.create(agenceDto);
     }
 
     @Operation(description = "Modifier une agence existante")
     @PutMapping("/{id}")
     public AgenceDto update(@PathVariable Long id, @Valid @RequestBody AgenceDto agenceDto) {
-        return agenceMapper.toDto(agenceService.update(id, agenceMapper.toEntity(agenceDto)));
+        return agenceService.update(id, agenceDto);
     }
 
     @Operation(description = "Supprimer une agence")

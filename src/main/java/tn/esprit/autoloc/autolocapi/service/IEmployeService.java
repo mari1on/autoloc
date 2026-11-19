@@ -1,17 +1,17 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
-import tn.esprit.autoloc.autolocapi.domain.Employe;
+import tn.esprit.autoloc.autolocapi.dto.EmployeDto;
 
 public interface IEmployeService {
 
-    Employe create(Employe employe);
+    EmployeDto create(EmployeDto employe);
 
-    Employe findById(Long id);
+    EmployeDto findById(Long id);
 
-    List<Employe> findAll();
+    List<EmployeDto> findAll();
 
-    Employe update(Long id, Employe employe);
+    EmployeDto update(Long id, EmployeDto employe);
 
     void deleteById(Long id);
 }

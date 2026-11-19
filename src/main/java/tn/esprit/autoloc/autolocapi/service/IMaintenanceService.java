@@ -1,20 +1,19 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
-import tn.esprit.autoloc.autolocapi.domain.Maintenance;
+import tn.esprit.autoloc.autolocapi.dto.MaintenanceDto;
 
 public interface IMaintenanceService {
 
-    Maintenance create(Maintenance maintenance);
+    MaintenanceDto create(MaintenanceDto maintenance);
 
-    Maintenance findById(Long id);
+    MaintenanceDto findById(Long id);
 
-    List<Maintenance> findAll();
+    List<MaintenanceDto> findAll();
 
-    Maintenance update(Long id, Maintenance maintenance);
+    MaintenanceDto update(Long id, MaintenanceDto maintenance);
 
-    // Atelier6 : affecter une maintenance existante à un véhicule existant.
-    Maintenance affecterVehicule(Long idMaintenance, Long idVehicule);
+    MaintenanceDto affecterVehicule(Long idMaintenance, Long idVehicule);
 
     void deleteById(Long id);
 }

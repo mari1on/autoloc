@@ -1,22 +1,21 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
-import tn.esprit.autoloc.autolocapi.domain.Vehicule;
+import tn.esprit.autoloc.autolocapi.dto.VehiculeDto;
 
 public interface IVehiculeService {
 
-    Vehicule create(Vehicule vehicule);
+    VehiculeDto create(VehiculeDto vehicule);
 
-    Vehicule findById(Long id);
+    VehiculeDto findById(Long id);
 
-    List<Vehicule> findAll();
+    List<VehiculeDto> findAll();
 
-    Vehicule update(Long id, Vehicule vehicule);
+    VehiculeDto update(VehiculeDto vehicule);
 
-    Vehicule affecterAgence(Long idVehicule, Long idAgence);
+    VehiculeDto affecterAgence(Long idVehicule, Long idAgence);
 
-    // Atelier6 : affecter un équipement existant à un véhicule existant.
-    Vehicule affecterEquipement(Long idVehicule, Long idEquipement);
+    VehiculeDto affecterEquipement(Long idVehicule, Long idEquipement);
 
     void deleteById(Long id);
 }

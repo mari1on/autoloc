@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//sm8
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,8 +17,8 @@ public class AgenceDto {
 
     private Long idAgence;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(message = "Le nom de l'agence est obligatoire.")
+    @Size(max = 255,min =3, message = "Le nom de l'agence doit contenir au moins 3 caractères et au plus 255 caractères.")
     private String nom;
 
     @NotBlank

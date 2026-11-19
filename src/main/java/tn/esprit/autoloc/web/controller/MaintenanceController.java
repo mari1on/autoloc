@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.dto.AffectationMaintenanceDto;
 import tn.esprit.autoloc.autolocapi.dto.MaintenanceDto;
-import tn.esprit.autoloc.autolocapi.domain.Maintenance;
-import tn.esprit.autoloc.autolocapi.mapper.MaintenanceMapper;
 import tn.esprit.autoloc.autolocapi.service.IMaintenanceService;
 
 @RestController
@@ -29,39 +26,40 @@ import tn.esprit.autoloc.autolocapi.service.IMaintenanceService;
 public class MaintenanceController {
 
     private final IMaintenanceService maintenanceService;
-    private final MaintenanceMapper maintenanceMapper;
 
     @Operation(description = "Récupérer toutes les maintenances de la base de données")
     @GetMapping
-    public List<Maintenance> findAll() {
+    public List<MaintenanceDto> findAll() {
         return maintenanceService.findAll();
     }
 
     @Operation(description = "Récupérer une maintenance à partir de son identifiant")
     @GetMapping("/{id}")
-    public Maintenance findById(@PathVariable Long id) {
+    public MaintenanceDto findById(@PathVariable Long id) {
         return maintenanceService.findById(id);
     }
 
     @Operation(description = "Ajouter une nouvelle maintenance")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Maintenance create(@RequestBody Maintenance maintenance) {
+    public MaintenanceDto create(@Valid @RequestBody MaintenanceDto maintenance) {
         return maintenanceService.create(maintenance);
     }
 
     @Operation(description = "Modifier une maintenance existante")
     @PutMapping("/{id}")
-    public Maintenance update(@PathVariable Long id, @RequestBody Maintenance maintenance) {
+    public MaintenanceDto update(@PathVariable Long id, @Valid @RequestBody MaintenanceDto maintenance) {
         return maintenanceService.update(id, maintenance);
     }
 
     // Atelier6
     @Operation(description = "Affecter une maintenance existante à un véhicule")
-    @PutMapping("/affecter-vehicule")
-    public MaintenanceDto affecterVehicule(@Valid @RequestBody AffectationMaintenanceDto affectationDto) {
-        return maintenanceMapper.toDto(maintenanceService.affecterVehicule(
-                affectationDto.getIdMaintenance(), affectationDto.getIdVehicule()));
+    @PutMapping("/{idMaintenance}/vehicule/{idVehicule}")
+    public MaintenanceDto affecterVehicule(
+            @PathVariable Long idMaintenance,
+            @PathVariable Long idVehicule
+    ) {
+        return maintenanceService.affecterVehicule(idMaintenance, idVehicule);
     }
 
     @Operation(description = "Supprimer une maintenance")

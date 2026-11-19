@@ -1,7 +1,6 @@
 package tn.esprit.autoloc.web.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.autoloc.autolocapi.dto.VehiculeDto;
-import tn.esprit.autoloc.autolocapi.dto.AffectationEquipementDto;
-import tn.esprit.autoloc.autolocapi.mapper.VehiculeMapper;
 import tn.esprit.autoloc.autolocapi.service.IVehiculeService;
 
 @RestController
@@ -29,49 +26,46 @@ import tn.esprit.autoloc.autolocapi.service.IVehiculeService;
 public class VehiculeController {
 
     private final IVehiculeService vehiculeService;
-    //sm8
-    private final VehiculeMapper vehiculeMapper;
 
     @Operation(description = "Récupérer tous les véhicules de la base de données")
     @GetMapping
     public List<VehiculeDto> findAll() {
-        return vehiculeService.findAll().stream()
-                .map(vehiculeMapper::toDto)
-                .collect(Collectors.toList());
+        return vehiculeService.findAll();
     }
 
     @Operation(description = "Récupérer un véhicule à partir de son identifiant")
     @GetMapping("/{id}")
     public VehiculeDto findById(@PathVariable Long id) {
-        return vehiculeMapper.toDto(vehiculeService.findById(id));
+        return vehiculeService.findById(id);
     }
 
     @Operation(description = "Ajouter un nouveau véhicule")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VehiculeDto create(@Valid @RequestBody VehiculeDto vehiculeDto) {
-        return vehiculeMapper.toDto(vehiculeService.create(vehiculeMapper.toEntity(vehiculeDto)));
+        return vehiculeService.create(vehiculeDto);
     }
 
     @Operation(description = "Modifier un véhicule existant")
-    @PutMapping("/{id}")
-    public VehiculeDto update(@PathVariable Long id, @Valid @RequestBody VehiculeDto vehiculeDto) {
-        return vehiculeMapper.toDto(vehiculeService.update(id, vehiculeMapper.toEntity(vehiculeDto)));
+    @PutMapping
+    public VehiculeDto update(@Valid @RequestBody VehiculeDto vehiculeDto) {
+        return vehiculeService.update(vehiculeDto);
     }
-    //sm8!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //recevoir la requête HTTP
+
     @Operation(description = "Affecter un véhicule à une agence")
     @PutMapping("/{id}/agence/{idAgence}")
     public VehiculeDto affecterAgence(@PathVariable Long id, @PathVariable Long idAgence) {
-        return vehiculeMapper.toDto(vehiculeService.affecterAgence(id, idAgence));
+        return vehiculeService.affecterAgence(id, idAgence);
     }
 
     // Atelier6
     @Operation(description = "Affecter un équipement existant à un véhicule")
-    @PutMapping("/affecter-equipement")
-    public VehiculeDto affecterEquipement(@Valid @RequestBody AffectationEquipementDto affectationDto) {
-        return vehiculeMapper.toDto(vehiculeService.affecterEquipement(
-                affectationDto.getIdVehicule(), affectationDto.getIdEquipement()));
+    @PutMapping("/{idVehicule}/equipements/{idEquipement}")
+    public VehiculeDto affecterEquipement(
+            @PathVariable Long idVehicule,
+            @PathVariable Long idEquipement
+    ) {
+        return vehiculeService.affecterEquipement(idVehicule, idEquipement);
     }
 
     @Operation(description = "Supprimer un véhicule")
