@@ -1,17 +1,17 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
-import tn.esprit.autoloc.autolocapi.domain.Paiement;
+import tn.esprit.autoloc.autolocapi.dto.PaiementDto;
 
 public interface IPaiementService {
 
-    Paiement create(Paiement paiement);
+    PaiementDto create(PaiementDto paiement);
 
-    Paiement findById(Long id);
+    PaiementDto findById(Long id);
 
-    List<Paiement> findAll();
+    List<PaiementDto> findAll();
 
-    Paiement update(Long id, Paiement paiement);
+    PaiementDto update(Long id, PaiementDto paiement);
 
     void deleteById(Long id);
 }

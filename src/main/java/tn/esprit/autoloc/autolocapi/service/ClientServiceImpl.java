@@ -1,11 +1,14 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.autolocapi.domain.Client;
+import tn.esprit.autoloc.autolocapi.dto.ClientDto;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
+import tn.esprit.autoloc.autolocapi.mapper.IMapper;
 import tn.esprit.autoloc.autolocapi.repository.IClientRepository;
 
 @Service
@@ -13,37 +16,43 @@ import tn.esprit.autoloc.autolocapi.repository.IClientRepository;
 public class ClientServiceImpl implements IClientService {
 
     private final IClientRepository clientRepository;
+    private final IMapper mapper;
 
     @Override
-    public Client create(Client client) {
-        if (client.getIdClient() != null) {
+    public ClientDto create(ClientDto client) {
+        Client clientEntity = mapper.toEntity(client);
+        if (clientEntity.getIdClient() != null) {
             throw new IllegalArgumentException("Un nouveau client ne doit pas avoir d'identifiant");
         }
-        return clientRepository.save(client);
+        return mapper.toDto(clientRepository.save(clientEntity));
     }
 
     @Override
-    public Client findById(Long id) {
-        return clientRepository.findById(id)
+    public ClientDto findById(Long id) {
+        Client clientEntity = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Client", id));
+        return mapper.toDto(clientEntity);
     }
 
     @Override
-    public List<Client> findAll() {
-        return clientRepository.findAll();
+    public List<ClientDto> findAll() {
+        return clientRepository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Client update(Long id, Client client) {
-        Client existant = findById(id);
-        existant.setNom(client.getNom());
-        existant.setPrenom(client.getPrenom());
-        existant.setEmail(client.getEmail());
-        existant.setTelephone(client.getTelephone());
-        existant.setNumPermis(client.getNumPermis());
-        existant.setDateInscription(client.getDateInscription());
-        existant.setReservations(client.getReservations());
-        return clientRepository.save(existant);
+    public ClientDto update(Long id, ClientDto client) {
+        Client clientEntity = mapper.toEntity(client);
+        Client clientExistant = clientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Client", id));
+        clientExistant.setNom(clientEntity.getNom());
+        clientExistant.setPrenom(clientEntity.getPrenom());
+        clientExistant.setEmail(clientEntity.getEmail());
+        clientExistant.setTelephone(clientEntity.getTelephone());
+        clientExistant.setNumPermis(clientEntity.getNumPermis());
+        clientExistant.setDateInscription(clientEntity.getDateInscription());
+        return mapper.toDto(clientRepository.save(clientExistant));
     }
 
     @Override

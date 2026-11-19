@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.domain.Equipement;
+import tn.esprit.autoloc.autolocapi.dto.EquipementDto;
 import tn.esprit.autoloc.autolocapi.service.IEquipementService;
 
 @RestController
@@ -28,26 +28,26 @@ public class EquipementController {
 
     @Operation(description = "Récupérer tous les équipements de la base de données")
     @GetMapping
-    public List<Equipement> findAll() {
+    public List<EquipementDto> findAll() {
         return equipementService.findAll();
     }
 
     @Operation(description = "Récupérer un équipement à partir de son identifiant")
     @GetMapping("/{id}")
-    public Equipement findById(@PathVariable Long id) {
+    public EquipementDto findById(@PathVariable Long id) {
         return equipementService.findById(id);
     }
 
     @Operation(description = "Ajouter un nouvel équipement")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Equipement create(@RequestBody Equipement equipement) {
+    public EquipementDto create(@RequestBody EquipementDto equipement) {
         return equipementService.create(equipement);
     }
 
     @Operation(description = "Modifier un équipement existant")
     @PutMapping("/{id}")
-    public Equipement update(@PathVariable Long id, @RequestBody Equipement equipement) {
+    public EquipementDto update(@PathVariable Long id, @RequestBody EquipementDto equipement) {
         return equipementService.update(id, equipement);
     }
 

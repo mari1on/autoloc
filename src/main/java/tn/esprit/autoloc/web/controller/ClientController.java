@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.domain.Client;
+import tn.esprit.autoloc.autolocapi.dto.ClientDto;
 import tn.esprit.autoloc.autolocapi.service.IClientService;
 
 @RestController
@@ -28,26 +28,26 @@ public class ClientController {
 
     @Operation(description = "Récupérer tous les clients de la base de données")
     @GetMapping
-    public List<Client> findAll() {
+    public List<ClientDto> findAll() {
         return clientService.findAll();
     }
 
     @Operation(description = "Récupérer un client à partir de son identifiant")
     @GetMapping("/{id}")
-    public Client findById(@PathVariable Long id) {
+    public ClientDto findById(@PathVariable Long id) {
         return clientService.findById(id);
     }
 
     @Operation(description = "Ajouter un nouveau client")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client create(@RequestBody Client client) {
+    public ClientDto create(@RequestBody ClientDto client) {
         return clientService.create(client);
     }
 
     @Operation(description = "Modifier un client existant")
     @PutMapping("/{id}")
-    public Client update(@PathVariable Long id, @RequestBody Client client) {
+    public ClientDto update(@PathVariable Long id, @RequestBody ClientDto client) {
         return clientService.update(id, client);
     }
 

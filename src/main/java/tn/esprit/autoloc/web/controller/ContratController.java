@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.domain.Contrat;
+import tn.esprit.autoloc.autolocapi.dto.ContratDto;
 import tn.esprit.autoloc.autolocapi.service.IContratService;
 
 @RestController
@@ -28,26 +28,26 @@ public class ContratController {
 
     @Operation(description = "Récupérer tous les contrats de la base de données")
     @GetMapping
-    public List<Contrat> findAll() {
+    public List<ContratDto> findAll() {
         return contratService.findAll();
     }
 
     @Operation(description = "Récupérer un contrat à partir de son identifiant")
     @GetMapping("/{id}")
-    public Contrat findById(@PathVariable Long id) {
+    public ContratDto findById(@PathVariable Long id) {
         return contratService.findById(id);
     }
 
     @Operation(description = "Ajouter un nouveau contrat")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Contrat create(@RequestBody Contrat contrat) {
+    public ContratDto create(@RequestBody ContratDto contrat) {
         return contratService.create(contrat);
     }
 
     @Operation(description = "Modifier un contrat existant")
     @PutMapping("/{id}")
-    public Contrat update(@PathVariable Long id, @RequestBody Contrat contrat) {
+    public ContratDto update(@PathVariable Long id, @RequestBody ContratDto contrat) {
         return contratService.update(id, contrat);
     }
 

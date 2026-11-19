@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.domain.Paiement;
+import tn.esprit.autoloc.autolocapi.dto.PaiementDto;
 import tn.esprit.autoloc.autolocapi.service.IPaiementService;
 
 @RestController
@@ -22,13 +22,13 @@ public class PaiementController {
 
     @Operation(description = "Récupérer tous les paiements de la base de données")
     @GetMapping
-    public List<Paiement> findAll() {
+    public List<PaiementDto> findAll() {
         return paiementService.findAll();
     }
 
     @Operation(description = "Récupérer un paiement à partir de son identifiant")
     @GetMapping("/{id}")
-    public Paiement findById(@PathVariable Long id) {
+    public PaiementDto findById(@PathVariable Long id) {
         return paiementService.findById(id);
     }
 }

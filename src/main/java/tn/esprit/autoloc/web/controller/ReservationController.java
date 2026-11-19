@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.autoloc.autolocapi.domain.Reservation;
+import tn.esprit.autoloc.autolocapi.dto.ReservationDto;
 import tn.esprit.autoloc.autolocapi.service.IReservationService;
 
 @RestController
@@ -28,26 +28,26 @@ public class ReservationController {
 
     @Operation(description = "Récupérer toutes les réservations de la base de données")
     @GetMapping
-    public List<Reservation> findAll() {
+    public List<ReservationDto> findAll() {
         return reservationService.findAll();
     }
 
     @Operation(description = "Récupérer une réservation à partir de son identifiant")
     @GetMapping("/{id}")
-    public Reservation findById(@PathVariable Long id) {
+    public ReservationDto findById(@PathVariable Long id) {
         return reservationService.findById(id);
     }
 
     @Operation(description = "Ajouter une nouvelle réservation")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation create(@RequestBody Reservation reservation) {
+    public ReservationDto create(@RequestBody ReservationDto reservation) {
         return reservationService.create(reservation);
     }
 
     @Operation(description = "Modifier une réservation existante")
     @PutMapping("/{id}")
-    public Reservation update(@PathVariable Long id, @RequestBody Reservation reservation) {
+    public ReservationDto update(@PathVariable Long id, @RequestBody ReservationDto reservation) {
         return reservationService.update(id, reservation);
     }
 

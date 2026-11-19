@@ -1,11 +1,14 @@
 package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.autolocapi.domain.Equipement;
+import tn.esprit.autoloc.autolocapi.dto.EquipementDto;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
+import tn.esprit.autoloc.autolocapi.mapper.IMapper;
 import tn.esprit.autoloc.autolocapi.repository.IEquipementRepository;
 
 @Service
@@ -13,32 +16,38 @@ import tn.esprit.autoloc.autolocapi.repository.IEquipementRepository;
 public class EquipementServiceImpl implements IEquipementService {
 
     private final IEquipementRepository equipementRepository;
+    private final IMapper mapper;
 
     @Override
-    public Equipement create(Equipement equipement) {
-        if (equipement.getIdEquipement() != null) {
+    public EquipementDto create(EquipementDto equipement) {
+        Equipement equipementEntity = mapper.toEntity(equipement);
+        if (equipementEntity.getIdEquipement() != null) {
             throw new IllegalArgumentException("Un nouvel équipement ne doit pas avoir d'identifiant");
         }
-        return equipementRepository.save(equipement);
+        return mapper.toDto(equipementRepository.save(equipementEntity));
     }
 
     @Override
-    public Equipement findById(Long id) {
-        return equipementRepository.findById(id)
+    public EquipementDto findById(Long id) {
+        Equipement equipementEntity = equipementRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Equipement", id));
+        return mapper.toDto(equipementEntity);
     }
 
     @Override
-    public List<Equipement> findAll() {
-        return equipementRepository.findAll();
+    public List<EquipementDto> findAll() {
+        return equipementRepository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Equipement update(Long id, Equipement equipement) {
-        Equipement existant = findById(id);
-        existant.setLibelle(equipement.getLibelle());
-        existant.setVehicules(equipement.getVehicules());
-        return equipementRepository.save(existant);
+    public EquipementDto update(Long id, EquipementDto equipement) {
+        Equipement equipementEntity = mapper.toEntity(equipement);
+        Equipement equipementExistant = equipementRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Equipement", id));
+        equipementExistant.setLibelle(equipementEntity.getLibelle());
+        return mapper.toDto(equipementRepository.save(equipementExistant));
     }
 
     @Override
