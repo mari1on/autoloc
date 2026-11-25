@@ -17,5 +17,11 @@ public interface IVehiculeService {
 
     VehiculeDto affecterEquipement(Long idVehicule, Long idEquipement);
 
+    //sm10 - Liste des véhicules associés à un contrat
+    List<VehiculeDto> findVehiculesByContratId(Long idContrat);
+
+    //sm10 - Liste des véhicules associés à une maintenance
+    List<VehiculeDto> findVehiculesByMaintenanceId(Long idMaintenance);
+
     void deleteById(Long id);
 }

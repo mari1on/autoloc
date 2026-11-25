@@ -13,5 +13,8 @@ public interface IContratService {
 
     ContratDto update(Long id, ContratDto contrat);
 
+    //sm10 - Liste des contrats associés à un véhicule
+    List<ContratDto> findContratsByVehiculeId(Long idVehicule);
+
     void deleteById(Long id);
 }

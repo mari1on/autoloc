@@ -76,6 +76,14 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
         return mapper.toDto(maintenanceRepository.save(maintenance));
     }
 
+    //sm10 - Liste des maintenances associées à un véhicule
+    @Override
+    public List<MaintenanceDto> findMaintenancesByVehiculeId(Long idVehicule) {
+        return maintenanceRepository.findByVehiculeIdVehicule(idVehicule).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void deleteById(Long id) {
         if (!maintenanceRepository.existsById(id)) {

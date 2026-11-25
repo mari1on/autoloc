@@ -62,6 +62,12 @@ public class MaintenanceController {
         return maintenanceService.affecterVehicule(idMaintenance, idVehicule);
     }
 
+    //sm10 - Afficher les maintenances associées à un véhicule
+    @GetMapping("/vehicule/{idVehicule}")
+    public List<MaintenanceDto> findMaintenancesByVehiculeId(@PathVariable Long idVehicule) {
+        return maintenanceService.findMaintenancesByVehiculeId(idVehicule);
+    }
+
     @Operation(description = "Supprimer une maintenance")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -51,6 +51,12 @@ public class ContratController {
         return contratService.update(id, contrat);
     }
 
+    //sm10 - Afficher les contrats associés à un véhicule
+    @GetMapping("/vehicule/{idVehicule}")
+    public List<ContratDto> findContratsByVehiculeId(@PathVariable Long idVehicule) {
+        return contratService.findContratsByVehiculeId(idVehicule);
+    }
+
     @Operation(description = "Supprimer un contrat")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

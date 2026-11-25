@@ -84,6 +84,14 @@ public class ContratServiceImpl implements IContratService {
         }
     }
 
+    //sm10 - Liste des contrats associés à un véhicule
+    @Override
+    public List<ContratDto> findContratsByVehiculeId(Long idVehicule) {
+        return contratRepository.findByReservationVehiculeIdVehicule(idVehicule).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void deleteById(Long id) {
         if (!contratRepository.existsById(id)) {

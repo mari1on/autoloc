@@ -15,5 +15,8 @@ public interface IMaintenanceService {
 
     MaintenanceDto affecterVehicule(Long idMaintenance, Long idVehicule);
 
+    //sm10 - Liste des maintenances associées à un véhicule
+    List<MaintenanceDto> findMaintenancesByVehiculeId(Long idVehicule);
+
     void deleteById(Long id);
 }

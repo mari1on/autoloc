@@ -103,6 +103,22 @@ public class VehiculeServiceImpl implements IVehiculeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Agence", agence.getIdAgence()));
     }
 
+    //sm10 - Liste des véhicules associés à un contrat
+    @Override
+    public List<VehiculeDto> findVehiculesByContratId(Long idContrat) {
+        return vehiculeRepository.findByReservationsContratIdContrat(idContrat).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    //sm10 - Liste des véhicules associés à une maintenance
+    @Override
+    public List<VehiculeDto> findVehiculesByMaintenanceId(Long idMaintenance) {
+        return vehiculeRepository.findByMaintenancesIdMaintenance(idMaintenance).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void deleteById(Long id) {
         if (!vehiculeRepository.existsById(id)) {

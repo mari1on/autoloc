@@ -28,8 +28,10 @@ public interface IMapper {
     VehiculeDto toDto(Vehicule vehicule);
 
     @Mapping(target = "agence", source = "idAgence")
+    //sm10 - Ignorer les associations lors du mapping DTO vers entité
     @Mapping(target = "equipements", ignore = true)
     @Mapping(target = "maintenances", ignore = true)
+    @Mapping(target = "reservations", ignore = true)
     Vehicule toEntity(VehiculeDto vehiculeDto);
 
     @Mapping(target = "employes", source = "employes")

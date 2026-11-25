@@ -50,6 +50,7 @@ public class Vehicule {
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     Set<Equipement> equipements = new HashSet<>();
+    //sm10 - Liste des maintenances associées au véhicule
     @OneToMany(
             mappedBy = "vehicule",
             cascade = CascadeType.PERSIST,
@@ -57,4 +58,9 @@ public class Vehicule {
     )
     @JsonIgnore
     List<Maintenance> maintenances = new ArrayList<>();
+
+    //sm10 - Liste des réservations associées au véhicule
+    @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Reservation> reservations = new ArrayList<>();
 }

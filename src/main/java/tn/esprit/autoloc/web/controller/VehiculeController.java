@@ -68,6 +68,18 @@ public class VehiculeController {
         return vehiculeService.affecterEquipement(idVehicule, idEquipement);
     }
 
+    //sm10 - Afficher les véhicules associés à un contrat
+    @GetMapping("/contrat/{idContrat}")
+    public List<VehiculeDto> findVehiculesByContratId(@PathVariable Long idContrat) {
+        return vehiculeService.findVehiculesByContratId(idContrat);
+    }
+
+    //sm10 - Afficher les véhicules associés à une maintenance
+    @GetMapping("/maintenance/{idMaintenance}")
+    public List<VehiculeDto> findVehiculesByMaintenanceId(@PathVariable Long idMaintenance) {
+        return vehiculeService.findVehiculesByMaintenanceId(idMaintenance);
+    }
+
     @Operation(description = "Supprimer un véhicule")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
