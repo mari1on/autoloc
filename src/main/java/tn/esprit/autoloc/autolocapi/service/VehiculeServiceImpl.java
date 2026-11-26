@@ -111,10 +111,10 @@ public class VehiculeServiceImpl implements IVehiculeService {
                 .collect(Collectors.toList());
     }
 
-    //sm10 - Liste des véhicules associés à une maintenance
+    //sm10 -m
     @Override
     public List<VehiculeDto> findVehiculesByMaintenanceId(Long idMaintenance) {
-        return vehiculeRepository.findByMaintenancesIdMaintenance(idMaintenance).stream()
+        return vehiculeRepository.findByMaintenanceId(idMaintenance).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }

@@ -129,7 +129,7 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
     }
 
     private Vehicule findVehiculeForMaintenance(Long idMaintenance) {
-        return vehiculeRepository.findByMaintenancesIdMaintenance(idMaintenance).stream()
+        return vehiculeRepository.findByMaintenanceId(idMaintenance).stream()
                 .findFirst()
                 .orElse(null);
     }
