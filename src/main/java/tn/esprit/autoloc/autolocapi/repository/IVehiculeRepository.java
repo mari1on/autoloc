@@ -10,12 +10,22 @@ public interface IVehiculeRepository extends JpaRepository<Vehicule, Long> {
     //sm10 Véhicules associés à un contrat
     List<Vehicule> findByReservationsContratIdContrat(Long idContrat);
 
+
+  //sql
+  //@Query(value = """
+    //        SELECT v.*
+      //      FROM vehicule v
+        //    INNER JOIN maintenance m ON m.vehicule_id_vehicule = v.id_vehicule
+          //  WHERE m.id_maintenance = :idMaintenance
+           // """, nativeQuery = true)
+
     //sm10 -m
-    @Query(value = """
-            SELECT v.*
-            FROM vehicule v
-            INNER JOIN maintenance m ON m.vehicule_id_vehicule = v.id_vehicule
-            WHERE m.id_maintenance = :idMaintenance
-            """, nativeQuery = true)
+    //jpql
+    @Query("""
+            SELECT DISTINCT v
+            FROM Vehicule v
+            JOIN v.maintenances m
+            WHERE m.idMaintenance = :idMaintenance
+            """)
     List<Vehicule> findByMaintenanceId(@Param("idMaintenance") Long idMaintenance);
 }
