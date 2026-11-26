@@ -38,6 +38,7 @@ public interface IMapper {
     AgenceDto toDto(Agence agence);
 
     @Mapping(target = "employes", ignore = true)
+    @Mapping(target = "vehicules", ignore = true)
     Agence toEntity(AgenceDto agenceDto);
 
     @Mapping(target = "idAgence", source = "agence.idAgence")
@@ -46,10 +47,9 @@ public interface IMapper {
     @Mapping(target = "agence", source = "idAgence")
     Employe toEntity(EmployeDto employeDto);
 
-    @Mapping(target = "idVehicule", source = "vehicule.idVehicule")
+    @Mapping(target = "idVehicule", ignore = true)
     MaintenanceDto toDto(Maintenance maintenance);
 
-    @Mapping(target = "vehicule", source = "idVehicule")
     Maintenance toEntity(MaintenanceDto maintenanceDto);
 
     ClientDto toDto(Client client);
@@ -65,10 +65,9 @@ public interface IMapper {
     @Mapping(target = "paiements", source = "paiements")
     Contrat toEntity(ContratDto contratDto);
 
-    @Mapping(target = "idContrat", source = "contrat.idContrat")
+    @Mapping(target = "idContrat", ignore = true)
     PaiementDto toDto(Paiement paiement);
 
-    @Mapping(target = "contrat", source = "idContrat")
     Paiement toEntity(PaiementDto paiementDto);
 
     EquipementDto toDto(Equipement equipement);

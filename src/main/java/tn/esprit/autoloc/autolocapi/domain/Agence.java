@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,11 @@ public class Agence {
     String adresse;
     String telephone;
 
+    //fixer les associations
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     List<Employe> employes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Vehicule> vehicules = new ArrayList<>();
 }

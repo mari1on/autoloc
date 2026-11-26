@@ -1,7 +1,6 @@
 package tn.esprit.autoloc.autolocapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
@@ -46,9 +46,9 @@ public class Contrat {
     BigDecimal montantTotal;
 
     boolean valide;
-    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonManagedReference("contrat-paiements")
+    //fixer les associations
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "contrat_id_contrat")
     private List<Paiement> paiements = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)

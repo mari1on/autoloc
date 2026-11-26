@@ -50,12 +50,12 @@ public class Vehicule {
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     Set<Equipement> equipements = new HashSet<>();
-    //sm10 - Liste des maintenances associées au véhicule
+    //fixer les associations
     @OneToMany(
-            mappedBy = "vehicule",
-            cascade = CascadeType.PERSIST,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "vehicule_id_vehicule")
     @JsonIgnore
     List<Maintenance> maintenances = new ArrayList<>();
 

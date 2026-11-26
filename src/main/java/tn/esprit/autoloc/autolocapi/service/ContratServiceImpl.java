@@ -3,10 +3,13 @@ package tn.esprit.autoloc.autolocapi.service;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import tn.esprit.autoloc.autolocapi.domain.Contrat;
 import tn.esprit.autoloc.autolocapi.domain.Paiement;
@@ -15,6 +18,7 @@ import tn.esprit.autoloc.autolocapi.dto.ContratDto;
 import tn.esprit.autoloc.autolocapi.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.autolocapi.mapper.IMapper;
 import tn.esprit.autoloc.autolocapi.repository.IContratRepository;
+import tn.esprit.autoloc.autolocapi.repository.IPaiementRepository;
 import tn.esprit.autoloc.autolocapi.repository.IReservationRepository;
 
 @Service
@@ -23,6 +27,7 @@ public class ContratServiceImpl implements IContratService {
 
     private final IContratRepository contratRepository;
     private final IReservationRepository reservationRepository;
+    private final IPaiementRepository paiementRepository;
     private final IMapper mapper;
 
     @Override
@@ -33,25 +38,25 @@ public class ContratServiceImpl implements IContratService {
                     "Un nouveau contrat ne doit pas avoir d'identifiant");
         }
         contratEntity.setReservation(resolveReservation(contratEntity.getReservation()));
-        setPaiementContrat(contratEntity);
-        return mapper.toDto(contratRepository.save(contratEntity));
+        return toDto(contratRepository.save(contratEntity));
     }
 
     @Override
     public ContratDto findById(Long id) {
         Contrat contratEntity = contratRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Contrat", id));
-        return mapper.toDto(contratEntity);
+        return toDto(contratEntity);
     }
 
     @Override
     public List<ContratDto> findAll() {
         return contratRepository.findAll().stream()
-                .map(mapper::toDto)
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public ContratDto update(Long id, ContratDto contrat) {
         Contrat contratEntity = mapper.toEntity(contrat);
         Contrat contratExistant = contratRepository.findById(id)
@@ -60,11 +65,19 @@ public class ContratServiceImpl implements IContratService {
         contratExistant.setMontantTotal(contratEntity.getMontantTotal());
         contratExistant.setValide(contratEntity.isValide());
         contratExistant.setReservation(resolveReservation(contratEntity.getReservation()));
-        contratExistant.setPaiements(contratEntity.getPaiements() == null
+        List<Paiement> paiementsExistants = new ArrayList<>(contratExistant.getPaiements());
+        List<Paiement> nouveauxPaiements = contratEntity.getPaiements() == null
                 ? new ArrayList<>()
-                : contratEntity.getPaiements());
-        setPaiementContrat(contratExistant);
-        return mapper.toDto(contratRepository.save(contratExistant));
+                : contratEntity.getPaiements();
+        Set<Long> idsPaiementsConserves = nouveauxPaiements.stream()
+                .map(Paiement::getIdPaiement)
+                .filter(idPaiement -> idPaiement != null)
+                .collect(Collectors.toCollection(HashSet::new));
+        contratExistant.setPaiements(nouveauxPaiements);
+        paiementsExistants.stream()
+                .filter(paiement -> !idsPaiementsConserves.contains(paiement.getIdPaiement()))
+                .forEach(paiementRepository::delete);
+        return toDto(contratRepository.save(contratExistant));
     }
 
     private Reservation resolveReservation(Reservation reservation) {
@@ -75,13 +88,12 @@ public class ContratServiceImpl implements IContratService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation", reservation.getIdReservation()));
     }
 
-    private void setPaiementContrat(Contrat contrat) {
-        if (contrat.getPaiements() == null) {
-            contrat.setPaiements(new ArrayList<>());
+    private ContratDto toDto(Contrat contrat) {
+        ContratDto dto = mapper.toDto(contrat);
+        if (dto.getPaiements() != null) {
+            dto.getPaiements().forEach(paiement -> paiement.setIdContrat(contrat.getIdContrat()));
         }
-        for (Paiement paiement : contrat.getPaiements()) {
-            paiement.setContrat(contrat);
-        }
+        return dto;
     }
 
     //sm10 - Liste des contrats associés à un véhicule
